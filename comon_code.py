@@ -1,6 +1,7 @@
 import requests
 import os
 from urllib.parse import urlparse
+from tele_bot import bot
 
 
 def get_file_extension(link):
@@ -18,3 +19,4 @@ def download_image(link, save_name):
   
 	with open(file_name, 'wb') as file:
 		file.write(response.content)
+	bot.send_document(chat_id=-997935206, document=open(file_name, 'rb'))
