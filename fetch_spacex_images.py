@@ -1,30 +1,13 @@
 import requests
 import os
 from dotenv import load_dotenv
-from urllib.parse import urlparse
 from pathlib import Path
 import argparse
+from comon_code import download_image
 
 
 if not os.path.exists('images'):
 	os.makedirs('images')
-
-
-def get_file_extension(link):
-	file = urlparse(link)
-	extension = os.path.splitext(file.path)
-	return extension[1]
-
-
-def download_image(link, save_name):
-	response = requests.get(link)
-	response.raise_for_status()
-	
-	url = get_file_extension(link)
-	file_name = '{}{}'.format(save_name, url)
-  
-	with open(file_name, 'wb') as file:
-		file.write(response.content)
 
 
 def fetch_spacex_last_launch(id):
