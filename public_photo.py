@@ -1,5 +1,4 @@
 import schedule
-import requests
 import os
 from tele_bot import bot
 import random
@@ -8,14 +7,16 @@ import random
 def send_photo():
     for i in range(1):
         file = epic.pop(i)
-        bot.send_document(chat_id=-997935206, document=open('epic/'+file, 'rb'))
+        with open('epic/{}'.format(file), 'rb', encoding='utf-8') as send:
+            bot.send_document(chat_id=-997935206, document=send)
 
 
 def shuffle_photo():
     for i in range(4):
         file = random.shuffle(epic)
-        file  = file.pop(i)
-        bot.send_document(chat_id=-997935206, document=open('epic/'+file, 'rb'))
+        file = file.pop(i)
+        with open('epic/{}'.format(file), 'rb', encoding='utf-8') as send:
+            bot.send_document(chat_id=-997935206, document=send)
 
 
 def main():

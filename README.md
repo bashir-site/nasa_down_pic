@@ -30,13 +30,63 @@ pip install -r requirements.txt
 
 ## Usage
 
-To use this script, you need to run this command:
+You can run 4 files:
+1. `main.py` - main file that downloads photos from all APIs at once and fills the folders `epic`, `nasa`, `images`
+2. `fetch_nasa_images.py` - file which downloads photos only from the api nasa and loads them into the folder `nasa`
+3. `fetch_epic_images.py` - the file that downloads photos only from the api epic and loads them into the `epic` folder
+4. `fetch_space_images.py` - file that downloads photos only from api spacex and uploads them to the `images` folder
+
+
+Before you run the script, you must specify the environment variables: 
+1. API_EVERYDAY is the token for daily nasa(apod) photos. This token can be obtained from the website - https://api.nasa.gov/#apod . This token is needed to run the script `fetch_nasa_images.py`
+2. API_EPIC is a token for taking nasa(EPIC) earth photos. You can get this token at https://api.nasa.gov/#epic . This token is needed to run the script `fetch_epic_images.py`
+3. LAUNCH_ID is the id of the best photo of the day. This token is needed to run the script `fetch_space_images.py`
+
+
+To run the `main.py` file you need to write this command:
 
 ```bash
-python main.py
+python main.py 6 6
 ```
-
+this command download 6 pictures from apod api, 6 pictures from epic api and all pictures from spacex api.
 After script complete, you've gonna see all picturies in directory `epic` ,  `nasa`  and  `images`.
+
+
+To run the `fetch_nasa_images.py` file you need to write this command:
+
+```bash
+python fetch_nasa_images.py --count 4
+```
+this command download 4 pictures from apod api.
+After script complete, you've gonna see all picturies in directory `nasa`
+
+
+To run the `fetch_epic_images.py` file you need to write this command:
+
+```bash
+python fetch_epic_images.py --count 4
+```
+this command download 4 pictures from epic api.
+After script complete, you've gonna see all picturies in directory `epic`
+
+
+To run the `fetch_space_images.py` file you need to write this command:
+
+with paramets --id:
+```bash
+python fetch_space_images.py --id {own_id}
+```
+Instead of {own_id} you have to put your id
+
+or without:
+```bash
+python fetch_space_images.py 
+```
+then script just grab my own id
+
+this command download 4 pictures from spacex api.
+After script complete, you've gonna see all picturies in directory `images`
+
 
 
 ## Contributing
