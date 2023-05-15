@@ -2,3 +2,7 @@
 .env
 venv
 .gitattributes
+__pycache__
+epic
+images
+nasa
