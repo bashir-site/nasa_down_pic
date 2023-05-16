@@ -4,24 +4,18 @@ from dotenv import load_dotenv
 from pathlib import Path
 import argparse
 from comon_code import download_image
-from tele_bot import bot
 
 
 if not os.path.exists('nasa'):
-    os.makedirs('nasa')
+	os.makedirs('nasa')
 
 
-def fetch_nasa_day_pictures(count, token_apod):
-    params = {
-        "api_key": token_apod,
-        "count": count
-    }
-    url = "https://api.nasa.gov/planetary/apod"
-    response = requests.get(url, params)
-    response.raise_for_status()
-    for i in range(count):
-        file_name = download_image(response.json()[i]['url'], 'nasa/nasa_apod_{}'.format(i), params)
-        bot.send_document(chat_id=-997935206, document=open(file_name, 'rb'))
+def fetch_nasa_day_pictures(count, api_everyday):
+	url = "https://api.nasa.gov/planetary/apod?count={}&api_key={}".format(count, api_everyday)
+	response = requests.get(url)
+	response.raise_for_status()
+	for i in range(0, count):
+		download_image(response.json()[i]['url'], 'nasa/nasa_apod_{}'.format(i))
 
 
 parser = argparse.ArgumentParser(description='Программа загрузит фото от Nasa в указаном количестве.')
@@ -30,9 +24,8 @@ args = parser.parse_args()
 
 env_path = Path('.') / '.env'
 load_dotenv()
-token_apod = os.getenv('API_EVERYDAY')
+api_everyday = os.getenv('API_EVERYDAY')
 if args.count:
-    fetch_nasa_day_pictures(args.count, token_apod)
+	fetch_nasa_day_pictures(args.count, api_everyday)
 else:
-    fetch_nasa_day_pictures(5, token_apod)
-
+	fetch_nasa_day_pictures(5, api_everyday)
