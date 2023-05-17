@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 import argparse
 from main import download_image
+import telegram
 
 
 if not os.path.exists('images'):
@@ -22,6 +23,8 @@ def fetch_spacex_last_launch(id):
 parser = argparse.ArgumentParser(description='Программа загрузит фото от SpaceX по указанному ID запуска.')
 parser.add_argument('--id', metavar='amountD', help='ID запуска')
 args = parser.parse_args()
+telebot_token = os.getenv("TELEBOT_TOKEN")
+bot = telegram.Bot(token=telebot_token)
 
 if args.id:
     fetch_spacex_last_launch(args.id)

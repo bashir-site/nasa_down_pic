@@ -5,7 +5,7 @@ from urllib.parse import urlparse, urlencode
 from dotenv import load_dotenv
 from pathlib import Path
 import argparse
-from tele_bot import bot
+import telegram
 
 
 def get_file_extension(link):
@@ -77,6 +77,9 @@ if __name__ == "__main__":
     args = parser.parse_args()
     env_path = Path('.') / '.env'
     load_dotenv()
+    telebot_token = os.getenv("TELEBOT_TOKEN")
+    bot = telegram.Bot(token=telebot_token)
+
     token_apod = os.getenv('TOKEN_APOD')
     token_epic = os.getenv("TOKEN_EPIC")
     lauch_id = os.getenv("LAUNCH_ID")

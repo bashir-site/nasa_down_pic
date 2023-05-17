@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 import argparse
 from main import download_image
+import telegram
 
 
 if not os.path.exists('nasa'):
@@ -30,6 +31,8 @@ args = parser.parse_args()
 env_path = Path('.') / '.env'
 load_dotenv()
 token_apod = os.getenv('TOKEN_APOD')
+telebot_token = os.getenv("TELEBOT_TOKEN")
+bot = telegram.Bot(token=telebot_token)
 if args.count:
     fetch_nasa_day_pictures(args.count, token_apod)
 else:
