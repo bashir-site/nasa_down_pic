@@ -19,8 +19,8 @@ def fetch_nasa_day_pictures(apod_token, count):
     url = "https://api.nasa.gov/planetary/apod"
     response = requests.get(url, params)
     response.raise_for_status()
-    for i in range(count):
-        file_name = download_image(response.json()[i]['url'], 'nasa/nasa_apod_{}'.format(i), params)
+    for string_number, string in enumerate(response.json()):
+        file_name = download_image(string['url'], 'nasa/nasa_apod_{}'.format(string_number), params)
         bot.send_document(chat_id=-997935206, document=open(file_name, 'rb'))
 
 
