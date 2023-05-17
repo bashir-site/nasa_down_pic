@@ -11,7 +11,7 @@ if not os.path.exists('epic'):
     os.makedirs('epic')
 
 
-def fetch_nasa_epic_pictures(count=5, token_epic):
+def fetch_nasa_epic_pictures(token_epic, count=5):
     response = requests.get('https://epic.gsfc.nasa.gov/api/natural')
     response.raise_for_status()
     for i in range(count):
@@ -35,11 +35,6 @@ epic_token = os.getenv("EPIC_TOKEN")
 telebot_token = os.getenv("TELEBOT_TOKEN")
 bot = telegram.Bot(token=telebot_token)
 
+fetch_nasa_epic_pictures(epic_token, int(args.count or 5))
 
-print(args.count)
-
-if args.count:
-    fetch_nasa_epic_pictures(args.count, epic_token)
-else:
-    fetch_nasa_epic_pictures(5, epic_token)
 

@@ -23,13 +23,11 @@ def fetch_spacex_last_launch(id):
 parser = argparse.ArgumentParser(description='Программа загрузит фото от SpaceX по указанному ID запуска.')
 parser.add_argument('--id', metavar='amountD', help='ID запуска')
 args = parser.parse_args()
+env_path = Path('.') / '.env'
+load_dotenv()
+lauch_id = os.getenv("LAUNCH_ID")
 telebot_token = os.getenv("TELEBOT_TOKEN")
 bot = telegram.Bot(token=telebot_token)
 
-if args.id:
-    fetch_spacex_last_launch(args.id)
-else:
-    env_path = Path('.') / '.env'
-    load_dotenv()
-    lauch_id = os.getenv("LAUNCH_ID")
-    fetch_spacex_last_launch(lauch_id)
+fetch_spacex_last_launch(str(args.id or lauch_id))
+

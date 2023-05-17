@@ -11,7 +11,7 @@ if not os.path.exists('nasa'):
     os.makedirs('nasa')
 
 
-def fetch_nasa_day_pictures(count, apod_token):
+def fetch_nasa_day_pictures(apod_token, count):
     params = {
         "api_key": apod_token,
         "count": count
@@ -33,7 +33,5 @@ load_dotenv()
 apod_token = os.getenv('APOD_TOKEN')
 telebot_token = os.getenv("TELEBOT_TOKEN")
 bot = telegram.Bot(token=telebot_token)
-if args.count:
-    fetch_nasa_day_pictures(args.count, apod_token)
-else:
-    fetch_nasa_day_pictures(5, apod_token)
+fetch_nasa_day_pictures(apod_token, int(args.count or 5))
+
