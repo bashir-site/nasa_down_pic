@@ -34,9 +34,9 @@ def fetch_spacex_last_launch(id):
         bot.send_document(chat_id=-997935206, document=open(file_name, 'rb'))
 
 
-def fetch_nasa_day_pictures(count, token_apod):
+def fetch_nasa_day_pictures(count, apod_token):
     params = {
-        "api_key": token_apod,
+        "api_key": apod_token,
         "count": count
     }
     url = "https://api.nasa.gov/planetary/apod"
@@ -47,14 +47,14 @@ def fetch_nasa_day_pictures(count, token_apod):
         bot.send_document(chat_id=-997935206, document=open(file_name, 'rb'))
 
 
-def fetch_nasa_epic_pictures(count, token_epic):
+def fetch_nasa_epic_pictures(count,  epic_token):
     response = requests.get('https://epic.gsfc.nasa.gov/api/natural')
     response.raise_for_status()
     for i in range(count):
         epic_id = response.json()[i]['image']
         year, month, day = epic_id[8:12], epic_id[12:14], epic_id[14:16]
         params = {
-            "api_key": token_epic
+            "api_key": epic_token
         }
         url = "https://api.nasa.gov/EPIC/archive/natural/{}/{}/{}/png/{}.png".format(year, month, day, epic_id)
         file_name = download_image(url, 'epic/epic_{}'.format(i), params)
@@ -80,9 +80,9 @@ if __name__ == "__main__":
     telebot_token = os.getenv("TELEBOT_TOKEN")
     bot = telegram.Bot(token=telebot_token)
 
-    token_apod = os.getenv('TOKEN_APOD')
-    token_epic = os.getenv("TOKEN_EPIC")
+    apod_token = os.getenv('APOD_TOKEN')
+    epic_token = os.getenv("EPIC_TOKEN")
     lauch_id = os.getenv("LAUNCH_ID")
-    fetch_nasa_day_pictures(args.day_pic, token_apod)
-    fetch_nasa_epic_pictures(args.epic_pic, token_epic)
+    fetch_nasa_day_pictures(args.day_pic, apod_token)
+    fetch_nasa_epic_pictures(args.epic_pic, epic_token)
     fetch_spacex_last_launch(lauch_id)
