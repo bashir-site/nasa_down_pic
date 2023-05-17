@@ -25,8 +25,8 @@ def download_image(link, name, payload={}):
     return file_name
 
 
-def fetch_spacex_last_launch(id):
-    response = requests.get("https://api.spacexdata.com/v5/launches/{}".format(id))
+def fetch_spacex_last_launch(spacex_lauch_id):
+    response = requests.get("https://api.spacexdata.com/v5/launches/{}".format(spacex_lauch_id))
     response.raise_for_status()
     pictures = response.json()['links']['flickr']['original']
     for picture_number, picture in enumerate(pictures):
@@ -82,7 +82,7 @@ if __name__ == "__main__":
 
     apod_token = os.getenv('APOD_TOKEN')
     epic_token = os.getenv("EPIC_TOKEN")
-    lauch_id = os.getenv("LAUNCH_ID")
+    spacex_lauch_id = os.getenv("SPACEX_LAUNCH_ID")
     fetch_nasa_day_pictures(args.day_pic, apod_token)
     fetch_nasa_epic_pictures(args.epic_pic, epic_token)
-    fetch_spacex_last_launch(lauch_id)
+    fetch_spacex_last_launch(spacex_lauch_id)

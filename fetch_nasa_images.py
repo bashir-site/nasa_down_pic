@@ -19,9 +19,17 @@ def fetch_nasa_day_pictures(apod_token, count):
     url = "https://api.nasa.gov/planetary/apod"
     response = requests.get(url, params)
     response.raise_for_status()
+    list_pictures = []
     for string_number, string in enumerate(response.json()):
         file_name = download_image(string['url'], 'nasa/nasa_apod_{}'.format(string_number), params)
-        bot.send_document(chat_id=-997935206, document=open(file_name, 'rb'))
+        list_pictures.append(file_name)
+    return list_pictures
+
+
+def send_telegram(bot, list_pictures):
+    for file_name in list_pictures:
+        with open(file_name, 'rb') as file:
+            bot.send_document(chat_id=-997935206, document=file)
 
 
 parser = argparse.ArgumentParser(description='Программа загрузит фото от Nasa в указаном количестве.')
@@ -33,5 +41,6 @@ load_dotenv()
 apod_token = os.getenv('APOD_TOKEN')
 telebot_token = os.getenv("TELEBOT_TOKEN")
 bot = telegram.Bot(token=telebot_token)
-fetch_nasa_day_pictures(apod_token, int(args.count or 5))
+list_pictures = fetch_nasa_day_pictures(apod_token, int(args.count or 5))
+send_telegram(bot, list_pictures)
 
