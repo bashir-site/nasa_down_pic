@@ -22,7 +22,7 @@ def fetch_spacex_last_launch(spacex_lauch_id):
 
 
 parser = argparse.ArgumentParser(description='Программа загрузит фото от SpaceX по указанному ID запуска.')
-parser.add_argument('--id', metavar='amountD', help='ID запуска')
+parser.add_argument('--id', metavar='spacex_lauch_id', help='ID запуска')
 args = parser.parse_args()
 load_dotenv()
 spacex_lauch_id = os.getenv("SPACEX_LAUNCH_ID")
