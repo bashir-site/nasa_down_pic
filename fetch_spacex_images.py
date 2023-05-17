@@ -1,10 +1,8 @@
 import requests
 import os
 from dotenv import load_dotenv
-from pathlib import Path
 import argparse
-from main import download_image
-import telegram
+from comon_code import download_image,send_telegram
 
 
 if not os.path.exists('images'):
@@ -22,21 +20,14 @@ def fetch_spacex_last_launch(spacex_lauch_id):
     return list_pictures
 
 
-def send_telegram(bot, list_pictures):
-    for file_name in list_pictures:
-        with open(file_name, 'rb') as file:
-            bot.send_document(chat_id=-997935206, document=file)
-
 
 parser = argparse.ArgumentParser(description='Программа загрузит фото от SpaceX по указанному ID запуска.')
 parser.add_argument('--id', metavar='amountD', help='ID запуска')
 args = parser.parse_args()
-env_path = Path('.') / '.env'
 load_dotenv()
 spacex_lauch_id = os.getenv("SPACEX_LAUNCH_ID")
 telebot_token = os.getenv("TELEBOT_TOKEN")
-bot = telegram.Bot(token=telebot_token)
 
 list_pictures = fetch_spacex_last_launch(str(args.id or spacex_lauch_id))
-send_telegram(bot, list_pictures)
+send_telegram(telebot_token, list_pictures)
 
