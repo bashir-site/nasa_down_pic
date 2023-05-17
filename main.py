@@ -3,9 +3,15 @@ import os
 import os.path
 from urllib.parse import urlparse, urlencode
 from dotenv import load_dotenv
-from pathlib import Path
 import argparse
 import telegram
+from datetime import datetime
+
+
+def send_telegram(bot, list_pictures):
+    for file_name in list_pictures:
+        with open(file_name, 'rb') as file:
+            bot.send_document(chat_id=-997935206, document=file)
 
 
 def get_file_extension(link):
@@ -29,12 +35,15 @@ def fetch_spacex_last_launch(spacex_lauch_id):
     response = requests.get("https://api.spacexdata.com/v5/launches/{}".format(spacex_lauch_id))
     response.raise_for_status()
     pictures = response.json()['links']['flickr']['original']
+    list_pictures = []
     for picture_number, picture in enumerate(pictures):
         file_name = download_image(picture, 'images/spacex_{}'.format(picture_number))
-        bot.send_document(chat_id=-997935206, document=open(file_name, 'rb'))
+        list_pictures.append(file_name)
+    return list_pictures
 
 
-def fetch_nasa_day_pictures(count, apod_token):
+
+def fetch_nasa_day_pictures(apod_token, count):
     params = {
         "api_key": apod_token,
         "count": count
@@ -42,23 +51,35 @@ def fetch_nasa_day_pictures(count, apod_token):
     url = "https://api.nasa.gov/planetary/apod"
     response = requests.get(url, params)
     response.raise_for_status()
-    for i in range(count):
-        file_name = download_image(response.json()[i]['url'], 'nasa/nasa_apod_{}'.format(i), params)
-        bot.send_document(chat_id=-997935206, document=open(file_name, 'rb'))
+    list_pictures = []
+    for string_number, string in enumerate(response.json()):
+        file_name = download_image(string['url'], 'nasa/nasa_apod_{}'.format(string_number), params)
+        list_pictures.append(file_name)
+    return list_pictures
 
 
-def fetch_nasa_epic_pictures(count,  epic_token):
+def fetch_nasa_epic_pictures(token_epic, count=5):
     response = requests.get('https://epic.gsfc.nasa.gov/api/natural')
     response.raise_for_status()
-    for i in range(count):
-        epic_id = response.json()[i]['image']
-        year, month, day = epic_id[8:12], epic_id[12:14], epic_id[14:16]
+
+    images = []
+    for string in response.json():
+        images.append(string['image'])
+
+    list_pictures = []
+    for image_number, image in enumerate(images):
+        if image_number == count:
+            break
+        date_str = image.replace("epic_1b_", "")[0:8]
+        date_obj = datetime.strptime(date_str, '%Y%m%d')
+        year, month, day = date_obj.year, date_obj.strftime('%m'), date_obj.day
         params = {
-            "api_key": epic_token
+            "api_key": token_epic
         }
-        url = "https://api.nasa.gov/EPIC/archive/natural/{}/{}/{}/png/{}.png".format(year, month, day, epic_id)
-        file_name = download_image(url, 'epic/epic_{}'.format(i), params)
-        bot.send_document(chat_id=-997935206, document=open(file_name, 'rb'))
+        url = "https://api.nasa.gov/EPIC/archive/natural/{}/{}/{}/png/{}.png".format(year, month, day, image)
+        file_name = download_image(url, 'epic/epic_{}'.format(image_number), params)
+        list_pictures.append(file_name)
+    return list_pictures
 
 
 if __name__ == "__main__":
@@ -72,10 +93,9 @@ if __name__ == "__main__":
         os.makedirs('epic')
 
     parser = argparse.ArgumentParser(description='Программа скачивает NASA фотографии')
-    parser.add_argument('day_pic', metavar='amountD',  type=int, help='amount of everyday pictures that needs to download in directory nasa')
-    parser.add_argument('epic_pic', metavar='amountE',  type=int, help='amount of epic pictures that needs to download in directory epic')
+    parser.add_argument('apod_count', metavar='amountD',  type=int, help='amount of everyday pictures that needs to download in directory nasa')
+    parser.add_argument('epic_count', metavar='amountE',  type=int, help='amount of epic pictures that needs to download in directory epic')
     args = parser.parse_args()
-    env_path = Path('.') / '.env'
     load_dotenv()
     telebot_token = os.getenv("TELEBOT_TOKEN")
     bot = telegram.Bot(token=telebot_token)
@@ -83,6 +103,9 @@ if __name__ == "__main__":
     apod_token = os.getenv('APOD_TOKEN')
     epic_token = os.getenv("EPIC_TOKEN")
     spacex_lauch_id = os.getenv("SPACEX_LAUNCH_ID")
-    fetch_nasa_day_pictures(args.day_pic, apod_token)
-    fetch_nasa_epic_pictures(args.epic_pic, epic_token)
-    fetch_spacex_last_launch(spacex_lauch_id)
+    list_pictures_day = fetch_nasa_day_pictures(apod_token, args.apod_count)
+    list_pictures_epic = fetch_nasa_epic_pictures(epic_token, args.epic_count)
+    list_pictures_spacex = fetch_spacex_last_launch(spacex_lauch_id)
+    for pictures in list_pictures_day, list_pictures_epic, list_pictures_spacex:
+        send_telegram(bot, pictures)
+
