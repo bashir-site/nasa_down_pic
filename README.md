@@ -37,9 +37,12 @@ You can run 4 files:
 4. `fetch_space_images.py` - file that downloads photos only from api spacex and uploads them to the `images` folder
 
 Before you run the script, you must specify the environment variables: 
-1. API_EVERYDAY is the token for daily nasa(apod) photos. This token can be obtained from the website - https://api.nasa.gov/#apod . This token is needed to run the script `fetch_nasa_images.py`
-2. API_EPIC is a token for taking nasa(EPIC) earth photos. You can get this token at https://api.nasa.gov/#epic . This token is needed to run the script `fetch_epic_images.py`
-3. LAUNCH_ID is the id of the best photo of the day. This token is needed to run the script `fetch_space_images.py`
+1. APOD_TOKEN is the token for daily nasa(apod) photos. This token can be obtained from the website - https://api.nasa.gov/#apod . This token is needed to run the script `fetch_nasa_images.py`
+2. EPIC_TOKEN is a token for taking nasa(EPIC) earth photos. You can get this token at https://api.nasa.gov/#epic . This token is needed to run the script `fetch_epic_images.py`
+3. SPACEX_LAUNCH_ID is the id of the best photo of the day. This token is needed to run the script `fetch_space_images.py`
+4. TELEBOT_TOKEN is the token you get after registration with BotFather.
+5. TG_CHAT_ID is the chat ID where bot will send messages.
+
 
 To run the `main.py` file you need to write this command:
 
