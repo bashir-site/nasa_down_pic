@@ -1,11 +1,7 @@
-import requests
 import os
-import os.path
-from urllib.parse import urlparse, urlencode
 from dotenv import load_dotenv
 import argparse
-from datetime import datetime
-from comon_code import download_image,send_telegram
+from comon_code import send_telegram
 from fetch_spacex_images import fetch_spacex_last_launch
 from fetch_nasa_images import fetch_nasa_day_pictures
 from fetch_epic_images import fetch_nasa_epic_pictures
@@ -38,4 +34,3 @@ if __name__ == "__main__":
     list_pictures_epic = fetch_nasa_epic_pictures(epic_token, int(args.epic_count or 5))
     for pictures in list_pictures_day, list_pictures_epic, list_pictures_spacex:
         send_telegram(telebot_token, tg_chat_id, pictures)
-

@@ -2,7 +2,7 @@ import requests
 import os
 from dotenv import load_dotenv
 import argparse
-from comon_code import download_image,send_telegram
+from comon_code import download_image, send_telegram
 
 
 if not os.path.exists('nasa'):
@@ -34,4 +34,3 @@ telebot_token = os.getenv("TELEBOT_TOKEN")
 tg_chat_id = os.getenv('TG_CHAT_ID')
 list_pictures = fetch_nasa_day_pictures(apod_token, int(args.count or 5))
 send_telegram(telebot_token, tg_chat_id, list_pictures)
-
