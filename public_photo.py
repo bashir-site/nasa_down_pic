@@ -4,37 +4,36 @@ import os
 import random
 import telegram
 from dotenv import load_dotenv
-from pathlib import Path
 
-env_path = Path('.') / '.env'
+
 load_dotenv()
 telebot_token = os.getenv("TELEBOT_TOKEN")
 bot = telegram.Bot(token=telebot_token)
 
 
-def send_photo():
-    for i in range(1):
-        file = epic.pop(i)
-        with open('epic/{}'.format(file), 'rb', encoding='utf-8') as send:
-            bot.send_document(chat_id=-997935206, document=send)
+def send_photo(folder):
+    for epic_picture_number, epic_picture in enumerate(epic_pictures_dirs):
+        file = epic_pictures_dirs.pop(epic_picture_number)
+        with open('{}/{}'.format(folder, file), 'rb') as photo:
+            bot.send_document(chat_id=-997935206, document=photo)
 
 
-def shuffle_photo():
-    for i in range(4):
-        file = random.shuffle(epic)
-        file  = file.pop(i)
-        with open('epic/{}'.format(file), 'rb', encoding='utf-8') as send:
-            bot.send_document(chat_id=-997935206, document=send)
+def shuffle_photo(folder):
+    for epic_picture_number, epic_picture in enumerate(epic_pictures_dirs):
+        file = random.shuffle(epic_picture)
+        file  = file.pop(epic_picture_number)
+        with open('{}/{}'.format(folder, file), 'rb') as photo:
+            bot.send_document(chat_id=-997935206, document=photo)
 
 
-epic = os.listdir('epic/')
-nasa = os.listdir('nasa/')
-images = os.listdir('images/')
+epic_pictures_dirs = os.listdir('epic/')
+nasa_pictures_dirs = os.listdir('nasa/')
+images_pictures_dirs = os.listdir('images/')
 
 try:
-    schedule.every(14400).seconds.do(send_photo)
-except:
-    schedule.every(14400).seconds.do(shuffle_photo)
+    schedule.every(14400).seconds.do(send_photo, folder="epic")
+except IndexError:
+    schedule.every(14400).seconds.do(shuffle_photo, folder="epic")
 
 while True:
     schedule.run_pending()
