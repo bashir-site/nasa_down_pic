@@ -26,12 +26,12 @@ def fetch_nasa_day_pictures(apod_token, count):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Программа загрузит фото от Nasa в указаном количестве.')
-    parser.add_argument('--count', metavar='count', type=int, help='Количество загружаемых фото')
+    parser.add_argument('-count', metavar='count', type=int, default=5, help='Количество загружаемых фото')
     args = parser.parse_args()
 
     load_dotenv()
     apod_token = os.getenv('APOD_TOKEN')
     telebot_token = os.getenv("TELEBOT_TOKEN")
     tg_chat_id = os.getenv('TG_CHAT_ID')
-    pictures = fetch_nasa_day_pictures(apod_token, int(args.count or 5))
+    pictures = fetch_nasa_day_pictures(apod_token, args.count)
     send_telegram(telebot_token, tg_chat_id, pictures)

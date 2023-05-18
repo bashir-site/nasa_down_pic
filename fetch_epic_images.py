@@ -36,7 +36,7 @@ def fetch_nasa_epic_pictures(token_epic, count=5):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Программа загрузит EPIC фото в указаном количестве.')
-    parser.add_argument('--count', metavar='count', type=int, help='Количество загружаемых фото')
+    parser.add_argument('-count', metavar='count', type=int, default=5, help='Количество загружаемых фото')
     args = parser.parse_args()
 
     load_dotenv()
@@ -44,5 +44,5 @@ if __name__ == "__main__":
     telebot_token = os.getenv("TELEBOT_TOKEN")
     tg_chat_id = os.getenv('TG_CHAT_ID')
 
-    pictures = fetch_nasa_epic_pictures(epic_token, int(args.count or 5))
+    pictures = fetch_nasa_epic_pictures(epic_token, args.count)
     send_telegram(telebot_token, tg_chat_id, pictures)

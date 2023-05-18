@@ -21,13 +21,14 @@ def fetch_spacex_last_launch(spacex_lauch_id):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Программа загрузит фото от SpaceX по указанному ID запуска.')
-    parser.add_argument('--id', metavar='spacex_lauch_id', help='ID запуска')
-    args = parser.parse_args()
     load_dotenv()
     spacex_lauch_id = os.getenv("SPACEX_LAUNCH_ID")
     telebot_token = os.getenv("TELEBOT_TOKEN")
     tg_chat_id = os.getenv('TG_CHAT_ID')
 
-    pictures = fetch_spacex_last_launch(str(args.id or spacex_lauch_id))
+    parser = argparse.ArgumentParser(description='Программа загрузит фото от SpaceX по указанному ID запуска.')
+    parser.add_argument('-id', metavar='spacex_lauch_id', type=str, default=spacex_lauch_id, help='ID запуска')
+    args = parser.parse_args()
+
+    pictures = fetch_spacex_last_launch(args.id)
     send_telegram(telebot_token, tg_chat_id, pictures)
