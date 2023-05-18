@@ -34,14 +34,15 @@ def fetch_nasa_epic_pictures(token_epic, count=5):
     return list_pictures
 
 
-parser = argparse.ArgumentParser(description='Программа загрузит EPIC фото в указаном количестве.')
-parser.add_argument('--count', metavar='count', type=int, help='Количество загружаемых фото')
-args = parser.parse_args()
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Программа загрузит EPIC фото в указаном количестве.')
+    parser.add_argument('--count', metavar='count', type=int, help='Количество загружаемых фото')
+    args = parser.parse_args()
 
-load_dotenv()
-epic_token = os.getenv("EPIC_TOKEN")
-telebot_token = os.getenv("TELEBOT_TOKEN")
-tg_chat_id = os.getenv('TG_CHAT_ID')
+    load_dotenv()
+    epic_token = os.getenv("EPIC_TOKEN")
+    telebot_token = os.getenv("TELEBOT_TOKEN")
+    tg_chat_id = os.getenv('TG_CHAT_ID')
 
-list_pictures = fetch_nasa_epic_pictures(epic_token, int(args.count or 5))
-send_telegram(telebot_token, tg_chat_id, list_pictures)
+    list_pictures = fetch_nasa_epic_pictures(epic_token, int(args.count or 5))
+    send_telegram(telebot_token, tg_chat_id, list_pictures)

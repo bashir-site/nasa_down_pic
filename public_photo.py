@@ -16,17 +16,18 @@ def send_photo(folder, shuffle):
             bot.send_document(chat_id=tg_chat_id, document=photo)
 
 
-load_dotenv()
-telebot_token = os.getenv("TELEBOT_TOKEN")
-bot = telegram.Bot(token=telebot_token)
-tg_chat_id = os.getenv('TG_CHAT_ID')
+if __name__ == "__main__":
+    load_dotenv()
+    telebot_token = os.getenv("TELEBOT_TOKEN")
+    bot = telegram.Bot(token=telebot_token)
+    tg_chat_id = os.getenv('TG_CHAT_ID')
 
-epic_folder, nasa_folder, images_folder = 'epic', 'nasa', 'images'
+    epic_folder, nasa_folder, images_folder = 'epic', 'nasa', 'images'
 
-try:
-    schedule.every(2).seconds.do(send_photo, folder=epic_folder, shuffle=False)
-except IndexError:
-    schedule.every(14400).seconds.do(send_photo, folder=epic_folder, shuffle=True)
+    try:
+        schedule.every(2).seconds.do(send_photo, folder=epic_folder, shuffle=False)
+    except IndexError:
+        schedule.every(14400).seconds.do(send_photo, folder=epic_folder, shuffle=True)
 
-while True:
-    schedule.run_pending()
+    while True:
+        schedule.run_pending()
