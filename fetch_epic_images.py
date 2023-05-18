@@ -41,8 +41,9 @@ args = parser.parse_args()
 load_dotenv()
 epic_token = os.getenv("EPIC_TOKEN")
 telebot_token = os.getenv("TELEBOT_TOKEN")
+tg_chat_id = os.getenv('TG_CHAT_ID')
 
 list_pictures = fetch_nasa_epic_pictures(epic_token, int(args.count or 5))
-send_telegram(telebot_token, list_pictures)
+send_telegram(telebot_token, tg_chat_id, list_pictures)
 
 

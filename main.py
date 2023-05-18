@@ -28,6 +28,7 @@ if __name__ == "__main__":
 
     load_dotenv()
     telebot_token = os.getenv("TELEBOT_TOKEN")
+    tg_chat_id = os.getenv('TG_CHAT_ID')
     apod_token = os.getenv('APOD_TOKEN')
     epic_token = os.getenv("EPIC_TOKEN")
     spacex_lauch_id = os.getenv("SPACEX_LAUNCH_ID")
@@ -36,5 +37,5 @@ if __name__ == "__main__":
     list_pictures_day = fetch_nasa_day_pictures(apod_token, int(args.apod_count or 5))
     list_pictures_epic = fetch_nasa_epic_pictures(epic_token, int(args.epic_count or 5))
     for pictures in list_pictures_day, list_pictures_epic, list_pictures_spacex:
-        send_telegram(telebot_token, pictures)
+        send_telegram(telebot_token, tg_chat_id, pictures)
 
