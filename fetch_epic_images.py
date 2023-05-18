@@ -18,7 +18,7 @@ def fetch_nasa_epic_pictures(token_epic, count=5):
     for string in response.json():
         images.append(string['image'])
 
-    list_pictures = []
+    pictures = []
     for image_number, image in enumerate(images):
         if image_number == count:
             break
@@ -30,8 +30,8 @@ def fetch_nasa_epic_pictures(token_epic, count=5):
         }
         url = "https://api.nasa.gov/EPIC/archive/natural/{}/{}/{}/png/{}.png".format(year, month, day, image)
         file_name = download_image(url, 'epic/epic_{}'.format(image_number), params)
-        list_pictures.append(file_name)
-    return list_pictures
+        pictures.append(file_name)
+    return pictures
 
 
 if __name__ == "__main__":
@@ -44,5 +44,5 @@ if __name__ == "__main__":
     telebot_token = os.getenv("TELEBOT_TOKEN")
     tg_chat_id = os.getenv('TG_CHAT_ID')
 
-    list_pictures = fetch_nasa_epic_pictures(epic_token, int(args.count or 5))
-    send_telegram(telebot_token, tg_chat_id, list_pictures)
+    pictures = fetch_nasa_epic_pictures(epic_token, int(args.count or 5))
+    send_telegram(telebot_token, tg_chat_id, pictures)

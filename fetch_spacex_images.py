@@ -13,11 +13,11 @@ def fetch_spacex_last_launch(spacex_lauch_id):
     response = requests.get("https://api.spacexdata.com/v5/launches/{}".format(spacex_lauch_id))
     response.raise_for_status()
     pictures = response.json()['links']['flickr']['original']
-    list_pictures = []
+    pictures = []
     for picture_number, picture in enumerate(pictures):
         file_name = download_image(picture, 'images/spacex_{}'.format(picture_number))
-        list_pictures.append(file_name)
-    return list_pictures
+        pictures.append(file_name)
+    return pictures
 
 
 if __name__ == "__main__":
@@ -29,5 +29,5 @@ if __name__ == "__main__":
     telebot_token = os.getenv("TELEBOT_TOKEN")
     tg_chat_id = os.getenv('TG_CHAT_ID')
 
-    list_pictures = fetch_spacex_last_launch(str(args.id or spacex_lauch_id))
-    send_telegram(telebot_token, tg_chat_id, list_pictures)
+    pictures = fetch_spacex_last_launch(str(args.id or spacex_lauch_id))
+    send_telegram(telebot_token, tg_chat_id, pictures)

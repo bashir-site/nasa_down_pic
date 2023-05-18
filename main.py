@@ -29,8 +29,8 @@ if __name__ == "__main__":
     epic_token = os.getenv("EPIC_TOKEN")
     spacex_lauch_id = os.getenv("SPACEX_LAUNCH_ID")
 
-    list_pictures_spacex = fetch_spacex_last_launch(spacex_lauch_id)
-    list_pictures_day = fetch_nasa_day_pictures(apod_token, int(args.apod_count or 5))
-    list_pictures_epic = fetch_nasa_epic_pictures(epic_token, int(args.epic_count or 5))
-    for pictures in list_pictures_day, list_pictures_epic, list_pictures_spacex:
+    pictures_spacex = fetch_spacex_last_launch(spacex_lauch_id)
+    pictures_day = fetch_nasa_day_pictures(apod_token, int(args.apod_count or 5))
+    pictures_epic = fetch_nasa_epic_pictures(epic_token, int(args.epic_count or 5))
+    for pictures in pictures_day, pictures_epic, pictures_spacex:
         send_telegram(telebot_token, tg_chat_id, pictures)
