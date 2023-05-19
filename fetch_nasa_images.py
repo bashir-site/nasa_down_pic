@@ -31,6 +31,4 @@ if __name__ == "__main__":
 
     load_dotenv()
     apod_token = os.getenv('APOD_TOKEN')
-    telebot_token = os.getenv("TELEBOT_TOKEN")
-    tg_chat_id = os.getenv('TG_CHAT_ID')
     fetch_nasa_day_pictures(apod_token, args.count)

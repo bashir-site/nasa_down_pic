@@ -38,7 +38,5 @@ if __name__ == "__main__":
 
     load_dotenv()
     epic_token = os.getenv("EPIC_TOKEN")
-    telebot_token = os.getenv("TELEBOT_TOKEN")
-    tg_chat_id = os.getenv('TG_CHAT_ID')
 
     fetch_nasa_epic_pictures(epic_token, args.count)
