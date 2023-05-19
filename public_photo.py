@@ -10,7 +10,7 @@ class EmptyListError(Exception):
         self.txt = text
 
 
-def send_photo(folder, shuffle):
+def send_photos(folder, shuffle):
     pictures_dir = os.listdir('{}/'.format(folder))
     if shuffle:
         file = random.shuffle(pictures_dir)
@@ -31,9 +31,9 @@ if __name__ == "__main__":
     epic_folder, nasa_folder, images_folder = 'epic', 'nasa', 'images'
 
     try:
-        schedule.every(14400).seconds.do(send_photo, folder=epic_folder, shuffle=False)
+        schedule.every(14400).seconds.do(send_photos, folder=epic_folder, shuffle=False)
     except EmptyListError as elr:
-        schedule.every(14400).seconds.do(send_photo, folder=epic_folder, shuffle=True)
+        schedule.every(14400).seconds.do(send_photos, folder=epic_folder, shuffle=True)
 
     while True:
         schedule.run_pending()
