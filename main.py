@@ -1,6 +1,9 @@
 import os
 from dotenv import load_dotenv
 import argparse
+import schedule
+import time
+import random
 from comon_code import send_photo_tg_bot
 from fetch_spacex_images import fetch_spacex_last_launch
 from fetch_nasa_images import fetch_nasa_day_pictures
@@ -25,9 +28,14 @@ if __name__ == "__main__":
     parser.add_argument('-id', metavar='spacex_lauch_id', type=str, default=spacex_lauch_id, help='ID запуска')
     args = parser.parse_args()
 
-    pictures_spacex = fetch_spacex_last_launch(spacex_lauch_id)
+    pictures_spacex = fetch_spacex_last_launch(args.id)
     pictures_day = fetch_nasa_day_pictures(apod_token, args.counta)
     pictures_epic = fetch_nasa_epic_pictures(epic_token, args.counte)
-    for pictures in pictures_day, pictures_epic, pictures_spacex:
-        for file_name in pictures:
-            send_photo_tg_bot(telebot_token, tg_chat_id, file_name)
+    all_pictures = pictures_spacex + pictures_day + pictures_epic
+    random.shuffle(all_pictures)
+    
+    for picture in all_pictures:
+        schedule.every(4).hour.do(send_photo_tg_bot, telebot_token=telebot_token,tg_chat_id=tg_chat_id,file_name=picture)
+
+    while True:
+        schedule.run_pending()

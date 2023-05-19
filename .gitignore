@@ -2,6 +2,7 @@
 .env
 venv
 .gitattributes
+public_photo.py
 __pycache__
 epic
 images
