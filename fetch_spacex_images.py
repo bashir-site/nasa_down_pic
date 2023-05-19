@@ -2,7 +2,7 @@ import requests
 import os
 from dotenv import load_dotenv
 import argparse
-from comon_code import download_image, send_telegram
+from comon_code import download_image
 
 
 if not os.path.exists('images'):
@@ -30,5 +30,4 @@ if __name__ == "__main__":
     parser.add_argument('-id', metavar='spacex_lauch_id', type=str, default=spacex_lauch_id, help='ID запуска')
     args = parser.parse_args()
 
-    pictures = fetch_spacex_last_launch(args.id)
-    send_telegram(telebot_token, tg_chat_id, pictures)
+    fetch_spacex_last_launch(args.id)

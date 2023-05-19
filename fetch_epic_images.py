@@ -2,7 +2,7 @@ import requests
 import os
 from dotenv import load_dotenv
 import argparse
-from comon_code import download_image, send_telegram
+from comon_code import download_image
 from datetime import datetime
 
 
@@ -44,5 +44,4 @@ if __name__ == "__main__":
     telebot_token = os.getenv("TELEBOT_TOKEN")
     tg_chat_id = os.getenv('TG_CHAT_ID')
 
-    pictures = fetch_nasa_epic_pictures(epic_token, args.count)
-    send_telegram(telebot_token, tg_chat_id, pictures)
+    fetch_nasa_epic_pictures(epic_token, args.count)
