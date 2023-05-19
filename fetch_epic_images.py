@@ -6,10 +6,6 @@ from comon_code import download_image
 from datetime import datetime
 
 
-if not os.path.exists('epic'):
-    os.makedirs('epic')
-
-
 def fetch_nasa_epic_pictures(epic_token, count=5):
     response = requests.get('https://epic.gsfc.nasa.gov/api/natural')
     response.raise_for_status()
@@ -32,6 +28,9 @@ def fetch_nasa_epic_pictures(epic_token, count=5):
 
 
 if __name__ == "__main__":
+    if not os.path.exists('epic'):
+        os.makedirs('epic')
+
     parser = argparse.ArgumentParser(description='Программа загрузит EPIC фото в указаном количестве.')
     parser.add_argument('-count', metavar='count', type=int, default=5, help='Количество загружаемых фото')
     args = parser.parse_args()

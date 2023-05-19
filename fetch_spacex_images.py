@@ -5,10 +5,6 @@ import argparse
 from comon_code import download_image
 
 
-if not os.path.exists('images'):
-    os.makedirs('images')
-
-
 def fetch_spacex_last_launch(spacex_lauch_id):
     response = requests.get("https://api.spacexdata.com/v5/launches/{}".format(spacex_lauch_id))
     response.raise_for_status()
@@ -21,6 +17,9 @@ def fetch_spacex_last_launch(spacex_lauch_id):
 
 
 if __name__ == "__main__":
+    if not os.path.exists('images'):
+        os.makedirs('images')
+        
     load_dotenv()
     spacex_lauch_id = os.getenv("SPACEX_LAUNCH_ID")
 
