@@ -6,11 +6,9 @@ from comon_code import download_image
 
 
 def fetch_spacex_last_launch(spacex_lauch_id):
-    print(spacex_lauch_id)
     response = requests.get("https://api.spacexdata.com/v5/launches/{}".format(spacex_lauch_id))
     response.raise_for_status()
     pictures = response.json()['links']['flickr']['original']
-    print(pictures)
     picturies = []
     for picture_number, picture in enumerate(pictures):
         file_name = download_image(picture, 'images/spacex_{}'.format(picture_number))

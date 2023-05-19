@@ -25,4 +25,3 @@ def send_photo_tg_bot(telebot_token, tg_chat_id, file_name):
     bot = telegram.Bot(token=telebot_token)
     with open(file_name, 'rb') as file:
         bot.send_document(chat_id=tg_chat_id, document=file)
-

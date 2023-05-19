@@ -2,7 +2,6 @@ import os
 from dotenv import load_dotenv
 import argparse
 import schedule
-import time
 import random
 from comon_code import send_photo_tg_bot
 from fetch_spacex_images import fetch_spacex_last_launch
@@ -33,9 +32,9 @@ if __name__ == "__main__":
     pictures_epic = fetch_nasa_epic_pictures(epic_token, args.counte)
     all_pictures = pictures_spacex + pictures_day + pictures_epic
     random.shuffle(all_pictures)
-    
+
     for picture in all_pictures:
-        schedule.every(4).hour.do(send_photo_tg_bot, telebot_token=telebot_token,tg_chat_id=tg_chat_id,file_name=picture)
+        schedule.every(4).hour.do(send_photo_tg_bot, telebot_token=telebot_token, tg_chat_id=tg_chat_id, file_name=picture)
 
     while True:
         schedule.run_pending()
