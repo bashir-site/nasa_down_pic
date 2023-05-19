@@ -21,9 +21,8 @@ def fetch_nasa_day_pictures(apod_token, count):
 
 
 if __name__ == "__main__":
-    if not os.path.exists('nasa'):
-        os.makedirs('nasa')
-    
+    os.makedirs('nasa', exist_ok=True)
+
     parser = argparse.ArgumentParser(description='Программа загрузит фото от Nasa в указаном количестве.')
     parser.add_argument('-count', metavar='count', type=int, default=5, help='Количество загружаемых фото')
     args = parser.parse_args()

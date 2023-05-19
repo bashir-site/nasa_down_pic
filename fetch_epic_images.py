@@ -28,8 +28,7 @@ def fetch_nasa_epic_pictures(epic_token, count=5):
 
 
 if __name__ == "__main__":
-    if not os.path.exists('epic'):
-        os.makedirs('epic')
+    os.makedirs('epic', exist_ok=True)
 
     parser = argparse.ArgumentParser(description='Программа загрузит EPIC фото в указаном количестве.')
     parser.add_argument('-count', metavar='count', type=int, default=5, help='Количество загружаемых фото')

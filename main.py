@@ -15,14 +15,9 @@ if __name__ == "__main__":
     epic_token = os.getenv("EPIC_TOKEN")
     spacex_lauch_id = os.getenv("SPACEX_LAUNCH_ID")
 
-    if not os.path.exists('images'):
-        os.makedirs('images')
-
-    if not os.path.exists('nasa'):
-        os.makedirs('nasa')
-
-    if not os.path.exists('epic'):
-        os.makedirs('epic')
+    os.makedirs('images', exist_ok=True)
+    os.makedirs('nasa', exist_ok=True)
+    os.makedirs('epic', exist_ok=True)
 
     parser = argparse.ArgumentParser(description='Программа скачивает NASA фотографии')
     parser.add_argument('-counta', metavar='amountD',  type=int, default=5, help='amount of everyday pictures that needs to download in directory nasa')

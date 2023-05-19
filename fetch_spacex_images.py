@@ -17,9 +17,8 @@ def fetch_spacex_last_launch(spacex_lauch_id):
 
 
 if __name__ == "__main__":
-    if not os.path.exists('images'):
-        os.makedirs('images')
-        
+    os.makedirs('images', exist_ok=True)
+
     load_dotenv()
     spacex_lauch_id = os.getenv("SPACEX_LAUNCH_ID")
 
