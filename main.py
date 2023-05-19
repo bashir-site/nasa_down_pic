@@ -34,4 +34,4 @@ if __name__ == "__main__":
     pictures_day = fetch_nasa_day_pictures(apod_token, args.counta)
     pictures_epic = fetch_nasa_epic_pictures(epic_token, args.counte)
     for pictures in pictures_day, pictures_epic, pictures_spacex:
-        send_telegram(telebot_token, tg_chat_id, pictures)
+        send_photo_tg_bot(telebot_token, tg_chat_id, pictures)
