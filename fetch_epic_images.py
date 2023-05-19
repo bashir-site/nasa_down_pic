@@ -14,14 +14,11 @@ def fetch_nasa_epic_pictures(token_epic, count=5):
     response = requests.get('https://epic.gsfc.nasa.gov/api/natural')
     response.raise_for_status()
 
-    images = []
-    for string in response.json():
-        images.append(string['image'])
-
     pictures = []
-    for image_number, image in enumerate(images):
+    for image_number, image in enumerate(response.json()):
         if image_number == count:
             break
+        image = image['image']
         date_str = image.replace("epic_1b_", "")[0:8]
         date_obj = datetime.strptime(date_str, '%Y%m%d')
         year, month, day = date_obj.year, date_obj.strftime('%m'), date_obj.day
