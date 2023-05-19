@@ -10,15 +10,14 @@ class EmptyListError(Exception):
         self.txt = text
 
 
-def send_photos(folder, shuffle):
-    pictures_dir = os.listdir('{}/'.format(folder))
+def send_photos(all_pictures, shuffle):
     if shuffle:
-        file = random.shuffle(pictures_dir)
-    for picture_number, picture in enumerate(pictures_dir):
-        if pictures_dir == []:
+        file = random.shuffle(all_pictures)
+    for picture_number, picture in enumerate(all_pictures):
+        if all_pictures == []:
             raise EmptyListError("Список фотогафий пуст!")
-        file = pictures_dir.pop(picture_number)
-        with open('{}/{}'.format(folder, file), 'rb') as photo:
+        file = all_pictures.pop(picture_number)
+        with open(file, 'rb') as photo:
             bot.send_document(chat_id=tg_chat_id, document=photo)
 
 
@@ -28,12 +27,15 @@ if __name__ == "__main__":
     bot = telegram.Bot(token=telebot_token)
     tg_chat_id = os.getenv('TG_CHAT_ID')
 
-    epic_folder, nasa_folder, images_folder = 'epic', 'nasa', 'images'
+    pictures_epic_dir = [os.path.join('epic', filename) for filename in os.listdir('epic')]
+    pictures_nasa_dir = [os.path.join('nasa', filename) for filename in os.listdir('nasa')]
+    pictures_images_dir = [os.path.join('images', filename) for filename in os.listdir('images')]
+    all_pictures = pictures_epic_dir + pictures_nasa_dir + pictures_images_dir
 
     try:
-        schedule.every(14400).seconds.do(send_photos, folder=epic_folder, shuffle=False)
-    except EmptyListError as elr:
-        schedule.every(14400).seconds.do(send_photos, folder=epic_folder, shuffle=True)
+        schedule.every(2).seconds.do(send_photos, all_pictures=all_pictures, shuffle=False)
+    except EmptyListError:
+        schedule.every(14400).seconds.do(send_photos, all_pictures=all_pictures, shuffle=True)
 
     while True:
         schedule.run_pending()
