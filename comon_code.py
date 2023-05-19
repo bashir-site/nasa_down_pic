@@ -21,8 +21,7 @@ def download_image(link, name, payload={}):
     return file_name
 
 
-def send_photo_tg_bot(telebot_token, tg_chat_id, list_pictures):
+def send_photo_tg_bot(telebot_token, tg_chat_id, picture):
     bot = telegram.Bot(token=telebot_token)
-    for file_name in list_pictures:
-        with open(file_name, 'rb') as file:
-            bot.send_document(chat_id=tg_chat_id, document=file)
+    bot.send_document(chat_id=tg_chat_id, document=picture)
+
