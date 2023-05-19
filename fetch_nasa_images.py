@@ -18,8 +18,8 @@ def fetch_nasa_day_pictures(apod_token, count):
     response = requests.get(url, params)
     response.raise_for_status()
     pictures = []
-    for string_number, string in enumerate(response.json()):
-        file_name = download_image(string['url'], 'nasa/nasa_apod_{}'.format(string_number), params)
+    for picture_number, picture in enumerate(response.json()):
+        file_name = download_image(picture['url'], 'nasa/nasa_apod_{}'.format(picture_number), params)
         pictures.append(file_name)
     return pictures
 
